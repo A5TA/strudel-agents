@@ -1,0 +1,12 @@
+{
+  "name": "strudel-agents",
+  "description": "Compose genre-aware music in Strudel with Claude Code — subagents, skills, a distilled knowledge base, and a verified pattern library.",
+  "version": "0.1.0",
+  "author": {
+    "name": "strudel-agents contributors"
+  },
+  "homepage": "https://github.com/a5ta/strudel-agents",
+  "repository": "https://github.com/a5ta/strudel-agents",
+  "license": "MIT",
+  "keywords": ["strudel", "music", "live-coding", "tidalcycles", "composition"]
+}

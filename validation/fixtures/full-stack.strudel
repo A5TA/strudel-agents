@@ -1,0 +1,13 @@
+// REPL-style multi-pattern file: `$:` labels, signals, effect chains
+setcpm(120/4)
+
+$: s("bd*4").gain(0.9)
+
+$: s("[~ hh]*4").decay(.04).sustain(0).pan(sine.slow(8))
+
+$: note("<c2 eb2 g2 bb1>")
+  .s("sawtooth")
+  .lpf(sine.range(200, 2000).slow(4))
+  .room(.3)
+
+_$: s("never plays, muted label")

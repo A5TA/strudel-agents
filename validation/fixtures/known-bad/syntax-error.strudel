@@ -1,0 +1,3 @@
+// Intentionally broken: unclosed call + unterminated string
+s("bd sd
+  .fast(2

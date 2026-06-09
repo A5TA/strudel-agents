@@ -1,0 +1,2 @@
+// Intentionally broken: syntactically valid JS, but the function doesn't exist
+flooberize("bd sd").fast(2)

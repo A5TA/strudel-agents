@@ -1,0 +1,14 @@
+{
+  "name": "strudel-agents",
+  "owner": {
+    "name": "strudel-agents contributors",
+    "url": "https://github.com/a5ta/strudel-agents"
+  },
+  "plugins": [
+    {
+      "name": "strudel-agents",
+      "source": "./",
+      "description": "Compose genre-aware music in Strudel with Claude Code — subagents, skills, a distilled knowledge base, and a verified pattern library."
+    }
+  ]
+}
