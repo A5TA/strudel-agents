@@ -111,7 +111,7 @@ const chords = chord("<Cm7 Ab^7 Bb7 Gm7>")
 const lead = n("0 ~ 4 <7 9> ~ 4 ~ 2")
   .scale("C:minor:pentatonic")
   .s("triangle").delay(".4:.1875:.5")
-  .gain(.5).sometimesBy(.2, x => x.add(12));
+  .gain(.5).sometimesBy(.2, x => x.add(note(12)));
 
 $: drums
 $: bass

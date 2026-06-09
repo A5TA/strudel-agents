@@ -50,12 +50,14 @@ the scale. Sharps/flats on degrees push notes outside the scale
   Works on `note` patterns.
 - `.scaleTranspose(n)` — shift by **scale steps**, staying inside the
   current `scale()`.
-- `.add(n)` on an `n()` pattern is the everyday way to move by scale
-  degrees; `.add(note(12))` moves notes by semitones.
+- `.add(n(x))` applied **before** `.scale()` moves by scale degrees;
+  `.add(note(12))` moves by semitones. The argument must be keyed: a plain
+  `.add(12)` on a `note`/`n` control pattern warns "Can't do arithmetic on
+  control pattern" and silently does nothing.
 
 ```js
 note("c3 eb3 g3").transpose("<0 5 7>")          // I IV V in semitones
-n("0 2 4").scale("C:major").add("<0 2 4 3>")    // diatonic progression
+n("0 2 4").add(n("<0 2 4 3>")).scale("C:major") // diatonic progression
 note("c3 e3 g3").scale("C:major").scaleTranspose("<0 -1 -2>")
 ```
 

@@ -1,0 +1,35 @@
+// @title Glasshouse Stomp
+// @by strudel-agents contributors
+// @license MIT
+// @genre house
+// @bpm 124
+// Classic four-on-the-floor with offbeat open hats and syncopated 7th-chord stabs over a ii-V-I-vi in F major.
+
+setcpm(124/4)
+
+// ii-V-I-vi in F major, one chord per bar
+const prog = chord("<Gm7 C7 F^7 Am7>")
+
+// drums: 909 four-on-the-floor, opens on the offbeats
+$: stack(
+  s("bd*4").gain(.95),
+  s("[~ oh]*4").gain(.5).cut(1),            // offbeat opens, choked
+  s("hh*8").gain("[.25 .5]*4").hpf(6000),   // quiet 8ths underneath
+  s("~ cp ~ cp").room(.25).gain(.75)
+).bank("RolandTR909")
+
+// stabs on the and-of-2, the and-of-3, and a pickup into the next bar
+$: prog.voicing()
+  .struct("~ ~ x ~ ~ x ~ [~ x]")
+  .s("sawtooth")
+  .adsr(".005:.16:.2:.12")
+  .lpf(2200).lpq(4)
+  .room(.3).gain(.55)
+  .every(4, x => x.add(note(12)))           // lift the stabs an octave every 4th bar
+
+// bass plays the chord roots on the offbeats — classic house pump
+$: prog.rootNotes(2)
+  .struct("[~ x]*4")
+  .s("sawtooth")
+  .lpf(450).decay(.18).sustain(.2)
+  .gain(.8)

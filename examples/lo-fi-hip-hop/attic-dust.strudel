@@ -1,0 +1,43 @@
+// @title Attic Dust
+// @by strudel-agents contributors
+// @license MIT
+// @genre lo-fi hip hop
+// @bpm 80
+// 80 BPM swung boom-bap: m9/maj7 piano voicings on a ii-V-I-VI in C, crushed hats and crackle dust.
+
+setcpm(80/4)
+
+// ii9 - V9 - Imaj7 - VI7b13 in C major, one chord per bar
+const prog = chord("<Dm9 G9 C^7 A7b13>")
+
+// drums: lazy 808 boom-bap
+$: stack(
+  s("bd ~ [~ bd] ~").gain(.9),
+  s("~ sd ~ sd").gain(.7).room(.25)
+).bank("RolandTR808")
+
+// crushed hats carry the swing
+$: s("hh*8")
+  .bank("RolandTR808")
+  .swingBy(.2, 8)
+  .gain("[.5 .28]*4")
+  .crush(8)
+
+// dusty keys: lazy hits, slightly coarse
+$: prog.voicing()
+  .struct("x ~ [~ x] ~")
+  .swingBy(.2, 8)
+  .s("piano")
+  .coarse(3)
+  .lpf(2800)
+  .room(.45).gain(.7)
+
+// bass nudges the roots
+$: prog.rootNotes(1)
+  .struct("x ~ ~ [~ x] ~ ~ x ~")
+  .swingBy(.2, 8)
+  .s("sine")
+  .clip(.7).gain(.8)
+
+// vinyl dust
+$: s("crackle*2").gain(.3)

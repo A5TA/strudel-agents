@@ -1,0 +1,34 @@
+// @title Concrete Canopy
+// @by strudel-agents contributors
+// @license MIT
+// @genre jungle
+// @bpm 160
+// Darker 160 BPM jungle: tom-driven euclid breaks with snare drags, a tresillo sub in F minor, foghorn stabs.
+
+setcpm(160/4)
+
+// break engine: kicks, dragged snares, euclid toms as chopped fills
+$: stack(
+  s("bd ~ ~ ~ ~ ~ ~ bd ~ ~ bd ~ ~ ~ ~ ~"),
+  s("~ ~ ~ ~ sd ~ ~ ~ ~ ~ ~ ~ sd ~ [~ sd:2] ~").gain(.85),
+  s("lt(3,16,3), mt(5,16,1)").gain("[.5 .3]*8").speed("<1 1.2>"),
+  s("hh*16").gain("[.4 .18 .25 .18]*4").hpf(7000)
+).bank("RolandTR909")
+  .lastOf(4, x => x.iter(4))               // drag the slices around every 4th bar
+
+// tresillo sub following i -> bIII -> bVII in F minor
+$: note("<f1 f1 ab1 eb1>(3,8)")
+  .s("sine")
+  .release(.15).clip(.9)
+  .gain(.85)
+
+// foghorn stabs: dark cluster on the and-of-2 and a late pickup
+$: n("[0,2,4]").scale("F3:minor")
+  .struct("~ ~ x ~ ~ ~ [x ~] ~")
+  .s("sawtooth")
+  .attack(.01).decay(.2).sustain(0)
+  .lpf(1100).gain(.4)
+  .room(.4)
+
+// distant crash opening every 4-bar phrase
+$: s("<cr ~ ~ ~>").bank("RolandTR909").gain(.35).room(.5)

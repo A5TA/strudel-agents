@@ -1,0 +1,36 @@
+// @title Night Greenhouse
+// @by strudel-agents contributors
+// @license MIT
+// @genre acid
+// @bpm 128
+// Swampier 128 BPM acid in A minor: velocity-accented 16ths under a slow sine filter wobble, 808 kit.
+
+setcpm(128/4)
+
+// two alternating 16th bars in A natural minor, accents via velocity
+$: note("<[a1 a1 c2 a1 e2 a1 g2 a1 a1 c2 a1 e2 d2 c2 a1 g1] [a1 a1 c2 a1 e2 a1 g2 a1 a2 g2 e2 c2 d2 c2 a1 g1]>")
+  .s("sawtooth")
+  .velocity("[1 .5 .65 .5]*4")             // MIDI-ish accent pattern
+  .lpf(sine.slow(12).rangex(180, 2200))    // slower, deeper wobble than classic acid
+  .lpq(11).lpenv(3).lpdecay(.1)
+  .ftype("ladder")
+  .decay(.13).sustain(0).clip(.8)
+  .gain(.8)
+  .every(4, x => x.iter(4))                // rotate the line a quarter each bar
+
+// 808 kit with shaker 16ths
+$: stack(
+  s("bd*4").gain(.92),
+  s("sh*16").gain("[.35 .15]*8"),
+  s("~ cp ~ cp").gain(.5).room(.2),
+  s("[~ oh]*4").gain(.3).cut(1)
+).bank("RolandTR808")
+
+// a single dub chord answering every other bar
+$: n("[0,2,4]").scale("A3:minor")
+  .struct("~ ~ ~ [~ x]")
+  .slow(2)
+  .s("square")
+  .decay(.12).sustain(0)
+  .lpf(1500).gain(.4)
+  .delay(.5).delaytime(60/128*3/4).delayfeedback(.5)   // dotted-8th dub tail

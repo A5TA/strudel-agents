@@ -82,7 +82,7 @@ n(irand(8).segment(4)).scale("A:dorian")
 
 ```js
 s("bd sd").fast(2)
-n("0 2 4 7").scale("C:major").off(1/8, x => x.add(7).pan(1))
+n("0 2 4 7").off(1/8, x => x.add(n(7)).pan(1)).scale("C:major")
 s("hh*8").swing(4)
 note("c3 e3 g3 b3").iter(4)
 s("bd*4, hh*8").someCyclesBy(.3, x => x.zoom(.5, 1))
@@ -115,7 +115,7 @@ s("bd*4, hh*8").someCyclesBy(.3, x => x.zoom(.5, 1))
 
 ```js
 s("bd hh sd hh").every(4, x => x.rev())
-note("c3 eb3 g3 c4").when("<0 1>", x => x.add(12))
+note("c3 eb3 g3 c4").when("<0 1>", x => x.add(note(12)))
 note("c2,eb2,g2").struct("x ~ x x ~ x ~ ~")
 s("hh*8").mask("1 1 0 1")
 note("g1").euclidRot(5, 8, 2).s("sawtooth")
@@ -167,14 +167,14 @@ s(chooseCycles("bd*4", "bd(3,8)", "bd*2 [~ bd]"))
 | `stut` | `.stut(times, feedback, time)` | Legacy argument order of `echo`. |
 | `jux` | `.jux(fn)` | Original on the left channel, transformed copy on the right. |
 | `juxBy` | `.juxBy(amount, fn)` | `jux` with stereo width 0–1. |
-| `add` / `sub` / `mul` / `div` | `.add(pat)` etc. | Arithmetic on values (notes, n, controls). |
+| `add` / `sub` / `mul` / `div` | `.add(pat)` etc. | Arithmetic on values. On control patterns (`note()`, `n()`, after `.scale()`...) the argument must be **keyed** — `.add(note(12))`, `.add(n(2))`; a plain `.add(12)` warns and silently no-ops. |
 
 ```js
-note("c3 e3 g3").superimpose(x => x.add(12).gain(.5))
+note("c3 e3 g3").superimpose(x => x.add(note(12)).gain(.5))
 s("cp").echo(4, 1/8, .6)
 s("bd sd").jux(x => x.rev())
-n("0 2 4").scale("D:dorian").add("<0 0 5 7>")  // chord-progression trick
-note("c2*4").s("sawtooth").echoWith(3, 1/16, (p, i) => p.add(i * 12))
+n("0 2 4").add(n("<0 0 5 7>")).scale("D:dorian")  // chord-progression trick (keyed add, before scale)
+note("c2*4").s("sawtooth").echoWith(3, 1/16, (p, i) => p.add(note(i * 12)))
 ```
 
 ## Notes on usage

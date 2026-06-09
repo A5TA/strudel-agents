@@ -121,6 +121,11 @@ evaluated expression does (or you get errors). Prefix each voice with `$:`
 
 ## 11. Misc traps
 
+- Arithmetic on control patterns must be **keyed**: `.add(note(12))` /
+  `.add(n(2))` (apply `n`-adds *before* `.scale()`). A plain `.add(12)`
+  after `note()`/`n()`/`scale()` logs "Can't do arithmetic on control
+  pattern" and silently no-ops — the echo or transposition just never
+  happens.
 - `~` is a rest only **inside** mini-notation strings; in JS it's bitwise-not.
 - `,` inside one string layers patterns; `,` between arguments separates
   arguments. `"bd, hh*8"` ≠ `s("bd", "hh*8")`.

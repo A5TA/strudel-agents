@@ -136,7 +136,7 @@ note("c5").s("z_sawtooth").slide(2).pitchJump(12).pitchJumpTime(.1)
 ```js
 // Super-saw style: detuned layered copies
 note("c2 g1").s("sawtooth")
-  .superimpose(x => x.add(.1), x => x.sub(.1))   // add cents via fractional notes
+  .superimpose(x => x.add(note(.1)), x => x.sub(note(.1)))   // detune via fractional semitones
   .lpf(1200)
 
 // Sub bass + click

@@ -1,0 +1,35 @@
+// @title Grey Loop
+// @by strudel-agents contributors
+// @license MIT
+// @genre techno
+// @bpm 132
+// Hypnotic minimal techno: one G-minor 16th pulse carved by perlin and sine filter motion over a skeleton kit.
+
+setcpm(132/4)
+
+// the loop: a single bass cell — the filter does all the talking
+$: note("g1!3 [g1 g2] g1!2 bb1 g1".fast(2))
+  .s("sawtooth")
+  .lpf(perlin.slow(8).rangex(180, 2400))    // slow drifting cutoff
+  .lpq(8)
+  .decay(.12).sustain(0).clip(.9)
+  .gain("[.8 .5 .6 .5]*4")
+  .every(4, x => x.rev())
+
+// skeleton drums
+$: stack(
+  s("bd*4").gain(.9).shape(.2),
+  s("hh(11,16,1)").gain("[.4 .2]*8").hpf(9000),
+  s("~ ~ ~ [~ rim]").gain(.45)
+    .delay(.3).delaytime(60/132*3/4).delayfeedback(.4)  // dotted-8th echo
+).bank("RolandTR909")
+
+// ride ticking with a breathing level
+$: s("rd*8").gain(sine.slow(6).range(.1, .3)).pan(.65)
+
+// static fifth drone, barely opening with the sine
+$: note("[g2,d3]").slow(2)
+  .s("sawtooth")
+  .attack(1.5).release(2)
+  .lpf(sine.slow(16).rangex(250, 900))
+  .gain(.22).room(.5).orbit(3)

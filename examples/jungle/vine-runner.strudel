@@ -1,0 +1,39 @@
+// @title Vine Runner
+// @by strudel-agents contributors
+// @license MIT
+// @genre jungle
+// @bpm 160
+// 160 BPM jungle: a break programmed from the stock 909 kit (ghost-snare chops, bar flips) over a deep C-minor reggae bass.
+
+setcpm(160/4)
+
+// programmed "break": kicks, backbeats and ghost chops — flipped like a re-slice every 4th bar
+$: stack(
+  s("bd ~ ~ ~ ~ ~ ~ ~ ~ ~ bd ~ ~ ~ ~ ~"),
+  s("~ ~ ~ ~ sd ~ ~ ~ ~ ~ ~ ~ sd ~ ~ ~").gain(.9),
+  s("~ ~ ~ sd:3 ~ ~ sd:3 ~ ~ sd:3 ~ ~ ~ ~ sd:3 sd:3")
+    .gain("[.3 .42]*8").speed(1.4).hpf(500),           // pitched-up ghost chops
+  s("hh(11,16)").gain("[.45 .22]*8").pan(.6)
+).bank("RolandTR909")
+  .every(4, x => x.rev())                              // flip the bar
+  .sometimesBy(.07, x => x.ply(2))                     // stutter edits
+
+// deep reggae-ish bass: C-minor roots, laid back
+$: note("<c2 [~ c2] eb2 [bb1 ~ g1 ~]>")
+  .s("sine")
+  .attack(.03).release(.2).clip(.85)
+  .gain(.85)
+
+// offbeat skank chords
+$: n("[~ [0,2,4]]*2").scale("C3:minor")
+  .s("square")
+  .decay(.09).sustain(0)
+  .lpf(1600).gain(.35)
+  .room(.3)
+
+// dub rim echoing into space, only some bars
+$: s("~ ~ ~ ~ ~ ~ rim ~ ~ ~ ~ ~ ~ ~ ~ ~")
+  .bank("RolandTR909")
+  .gain(.5)
+  .delay(.6).delaytime(60/160*3/4).delayfeedback(.55)  // dotted-8th dub echo
+  .degradeBy(.3)

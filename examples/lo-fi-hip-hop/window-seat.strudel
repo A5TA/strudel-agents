@@ -1,0 +1,40 @@
+// @title Window Seat
+// @by strudel-agents contributors
+// @license MIT
+// @genre lo-fi hip hop
+// @bpm 76
+// Lazier 76 BPM head-nodder: a sparse E-minor-pentatonic melody trailed by off() echoes over ii-V-I keys in G.
+
+setcpm(76/4)
+
+// ii - V9 - Imaj7 - vi9 in G major
+const prog = chord("<Am7 D9 G^7 Em9>")
+
+// drums: dragging kick, swung crushed hats
+$: stack(
+  s("bd ~ ~ bd ~ ~ [~ bd] ~").gain(.85),
+  s("~ ~ sd ~ ~ ~ sd ~").gain(.65).room(.3),
+  s("hh*8").swingBy(.22, 8).gain("[.42 .22]*4").crush(9)
+).bank("RolandTR808")
+
+// keys float slightly behind the grid
+$: prog.voicing()
+  .struct("x ~ [~ x] ~")
+  .s("piano")
+  .coarse(2).lpf(2400)
+  .room(.5).gain(.65)
+  .late(.01)
+
+// lazy melody — E minor pentatonic sits inside G major
+$: n("0 ~ [~ 2] 4 ~ 3 ~ <1 5>")
+  .off(1/8, x => x.add(n(5)).velocity(.55))  // +5 pentatonic degrees = octave shimmer, a half-beat late
+  .off(1/2, x => x.velocity(.35).lpf(1200))  // faint half-bar ghost echo
+  .scale("E4:minor:pentatonic")
+  .swingBy(.22, 8)
+  .s("piano").coarse(2)
+  .gain(.6).room(.5)
+
+// round sub roots
+$: prog.rootNotes(1)
+  .struct("x ~ ~ ~ ~ ~ x ~")
+  .s("sine").clip(.8).gain(.75)
