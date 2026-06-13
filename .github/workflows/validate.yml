@@ -1,0 +1,31 @@
+name: validate
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: validation
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: validation/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci || npm install
+
+      - name: Self-test the harness (fixtures pass, known-bad fail)
+        run: node validate.mjs --self-test
+
+      # The validator exits 0 with a notice when the glob matches no files
+      # (e.g. examples/ doesn't exist yet), but fails on real pattern errors.
+      - name: Validate example patterns
+        run: node validate.mjs --verbose "../examples/**/*.strudel"

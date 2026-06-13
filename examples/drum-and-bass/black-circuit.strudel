@@ -1,0 +1,41 @@
+// @title Black Circuit
+// @by strudel-agents contributors
+// @license MIT
+// @genre drum-and-bass
+// @bpm 174
+// Dark 174 BPM roller: ghost-snare 16ths, a detuned reese prowling i-bIII-v in F minor, and a hostile high pad.
+
+setcpm(174/4)
+
+// main hits: roller kick placement plus backbeat snares
+$: stack(
+  s("bd ~ ~ ~ ~ ~ ~ bd ~ ~ bd ~ ~ ~ ~ ~"),
+  s("~ ~ ~ ~ sd ~ ~ ~ ~ ~ ~ ~ sd ~ ~ ~").gain(.9).room(.2)
+).bank("RolandTR909")
+
+// ghost snares: the rolling 16th undercurrent
+$: s("[~ sd:3]*8")
+  .bank("RolandTR909")
+  .gain("[.16 .22]*4")
+  .hpf(900).speed(1.3)
+  .degradeBy(.2)
+
+// hats lean on the offbeat
+$: s("hh(7,16,1)").bank("RolandTR909").gain(.35).hpf(8000).pan(.45)
+
+// reese: two detuned saws, slow filter prowl, i -> bIII -> v roots in F minor
+$: note("<f1 f1 ab1 [c1 eb1]>")
+  .s("sawtooth")
+  .superimpose(x => x.add(note(.09)), x => x.add(note(-.09)))   // detune in semitone fractions
+  .lpf(sine.slow(8).rangex(220, 1300)).lpq(5)
+  .attack(.02).release(.15).clip(.95)
+  .gain(.65)
+
+// hostile cluster pad two octaves up, every other bar
+$: n("[0,3,4]").scale("F4:minor")
+  .slow(2)
+  .s("sawtooth")
+  .attack(1).release(1.5)
+  .hpf(800).lpf(3000)
+  .room(.6).roomsize(5)
+  .gain(.2).orbit(2)

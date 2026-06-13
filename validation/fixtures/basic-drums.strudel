@@ -1,0 +1,2 @@
+// Basic drum pattern: plain sound names, no audio needed to validate
+s("bd sd bd sd").bank("RolandTR909").gain(0.9)

@@ -1,0 +1,31 @@
+// @title Citrus Press
+// @by strudel-agents contributors
+// @license MIT
+// @genre acid
+// @bpm 130
+// 130 BPM 303-style: a C-minor 16th sawtooth line, ladder filter swept by a slow sine, gain-pattern accents.
+
+setcpm(130/4)
+
+// the acid line: 16ths in C minor, accents on the downbeats
+$: note("c2 c2 eb2 c2 g1 c2 bb1 c3 c2 eb2 c2 g2 f2 eb2 c2 bb1")
+  .s("sawtooth")
+  .lpf(sine.slow(8).rangex(160, 2800))     // the slow squelch sweep
+  .lpq(14).lpenv(3.5).lpdecay(.09)
+  .ftype("ladder")
+  .decay(.14).sustain(0).clip(.8)
+  .gain("[.95 .55 .7 .55]*4")              // accent pattern
+  .distort("1.2:.6")
+  .sometimesBy(.12, x => x.add(note(12)))  // squeaky octave jumps
+  .every(8, x => x.rev())
+
+// 909 drive
+$: stack(
+  s("bd*4").gain(.92),
+  s("[~ hh]*4").gain(.5),
+  s("~ cp ~ cp").gain(.55).room(.2),
+  s("~ ~ ~ [~ oh]").gain(.35).cut(1)       // open-hat fill into the next bar
+).bank("RolandTR909")
+
+// side percs ticking against the squelch
+$: s("rim(3,16,2)").bank("RolandTR909").gain(.4).pan(.3)

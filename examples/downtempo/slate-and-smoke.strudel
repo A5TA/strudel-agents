@@ -1,0 +1,42 @@
+// @title Slate and Smoke
+// @by strudel-agents contributors
+// @license MIT
+// @genre downtempo
+// @bpm 90
+// 90 BPM trip-hop: heavy swung kit, dark Rhodes-ish piano on i-iv-VI-V7 in D minor, dub echoes on the rim.
+
+setcpm(90/4)
+
+// i - iv - VI - V7 in D minor, one chord per bar
+const prog = chord("<Dm7 Gm7 Bb^7 A7>")
+
+// heavy, dragging kit
+$: stack(
+  s("bd ~ ~ bd ~ ~ ~ ~").gain(.95).shape(.25),
+  s("~ ~ sd ~ ~ ~ sd ~").gain(.8).room(.4).roomsize(4),
+  s("hh*8").swingBy(.25, 8).gain("[.45 .2]*4").crush(9),
+  s("~ ~ ~ ~ ~ ~ [~ rim] ~").gain(.5)
+    .delay(.5).delaytime(60/90*3/4).delayfeedback(.5)   // dotted-8th dub echo
+).bank("RolandTR808")
+
+// dark Rhodes impression: piano squeezed through a low-pass, swung pushes
+$: prog.voicing()
+  .struct("x ~ [~ x] ~")
+  .swingBy(.25, 8)
+  .s("piano")
+  .lpf(1300)
+  .room(.45).gain(.75)
+
+// bass shadows the chord roots just behind the kick
+$: prog.rootNotes(1)
+  .struct("x ~ ~ x ~ ~ ~ [~ x]")
+  .swingBy(.25, 8)
+  .s("sawtooth")
+  .lpf(380).decay(.3).sustain(.3).clip(.8)
+  .gain(.8)
+
+// smoke: a high, lonely line drifting in the delay
+$: n("<0 ~ 2 ~ 1 ~ ~ ~>*2").scale("D5:minor")
+  .s("piano")
+  .gain(.5).room(.6)
+  .delay(.4).delaytime(60/90*3/4).delayfeedback(.45)

@@ -1,0 +1,32 @@
+// @title Lydian Overpass
+// @by strudel-agents contributors
+// @license MIT
+// @genre ambient
+// @bpm 60
+// Slow F-lydian pad cycle (I-II-iii-Imaj7, two bars each) with glacial attacks, a huge room and a floating line.
+
+setcpm(60/4)
+
+// I - II - iii - Imaj7 in F lydian (degree 3 = B natural, the lydian #4), two cycles per chord
+$: n("<[0,2,4,6] [1,3,5] [2,4,6] [0,2,4,6]>/2")
+  .scale("F:lydian")
+  .s("sawtooth")
+  .attack(2.5).release(3.5).sustain(.8)
+  .lpf(sine.slow(16).rangex(300, 1800))   // the filter is the slow weather
+  .room(.85).roomsize(8)
+  .pan(sine.slow(11).range(.3, .7))
+  .gain(.38)
+
+// root drone an octave below everything, following the chords
+$: note("<f1 g1 a1 f1>/2")
+  .s("sine")
+  .attack(3).release(4).sustain(.9)
+  .gain(.3)
+
+// floating line leaning on degree 3 — the #4 colour tone
+$: n("<4 ~ 6 3 ~ 7 6 ~>*2")
+  .scale("F4:lydian")
+  .s("triangle")
+  .attack(.3).release(1.5)
+  .delay(.6).delaytime(.75).delayfeedback(.55)
+  .room(.7).gain(.4)

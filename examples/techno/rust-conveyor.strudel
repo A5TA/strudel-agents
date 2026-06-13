@@ -1,0 +1,39 @@
+// @title Rust Conveyor
+// @by strudel-agents contributors
+// @license MIT
+// @genre techno
+// @bpm 132
+// Driving 132 BPM techno: rumble kick (909 + reverbed sine boom), perlin-warped percs and a dark F-minor stab riff.
+
+setcpm(132/4)
+
+// rumble kick: 909 kick layered with a sine boom into its own dark reverb bus
+$: stack(
+  s("bd*4").bank("RolandTR909").gain(.95).shape(.25),
+  note("f1*4").s("sine").decay(.28).sustain(0)
+    .gain(.55).orbit(2).room(.6).roomsize(3).roomlp(900)
+)
+
+// 16th hats ramping in level, opens on the offbeat
+$: stack(
+  s("hh*16").gain(saw.fast(4).range(.12, .4)).hpf(8000).pan(.55),
+  s("[~ oh]*4").gain(.4).cut(1)
+).bank("RolandTR909")
+
+// modulated metallic percs, doubling up every 8th bar
+$: s("rim(5,16,2), mt(3,16,1)")
+  .bank("RolandTR909")
+  .speed(perlin.slow(4).range(.7, 1.8))
+  .gain(.5).pan(sine.slow(3).range(.2, .8))
+  .delay(.25).delaytime(60/132/2).delayfeedback(.35)   // 8th-note echo
+  .every(8, x => x.fast(2))
+
+$: s("~ cp ~ ~").bank("RolandTR909").gain(.55).room(.25)
+
+// F minor stab riff: short filter-plucked saw hits (i, bIII, bVII colour)
+$: note("~ ~ f2 ~ ~ ab2 ~ ~ f2 ~ ~ ~ eb2 ~ ~ ~")
+  .s("sawtooth")
+  .lpf(900).lpq(6).lpenv(2).lpdecay(.08)
+  .decay(.1).sustain(0)
+  .distort("1.2:.6")
+  .gain(.6)

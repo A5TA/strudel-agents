@@ -1,0 +1,41 @@
+// @title Cellar Organ
+// @by strudel-agents contributors
+// @license MIT
+// @genre house
+// @bpm 122
+// Deep house: smoky organ-ish square chords on an i-IV dorian vamp with a rolling root-and-fifth bassline.
+
+setcpm(122/4)
+
+// two bars of Am7, two of D7/D9 — an i-IV vamp in A dorian
+const prog = chord("<Am7 Am7 D7 D9>")
+
+// drums: 808 kit, shaker offbeats, sparse rim ghosts
+$: stack(
+  s("bd*4").gain(.9),
+  s("[~ sh]*4").gain(.5),
+  s("rim(3,16,2)").gain(.4).pan(.35),
+  s("~ ~ ~ [~ cp]").gain(.5).room(.3)       // late clap pickup into beat 1
+).bank("RolandTR808")
+
+// organ-ish offbeat chords
+$: prog.voicing()
+  .struct("[~ x]*4")
+  .s("square")
+  .lpf(1300).adsr(".01:.2:.4:.15")
+  .room(.35).gain(.4)
+  .sometimesBy(.2, x => x.clip(1.5))        // let the odd chord hang over
+
+// airy doubling an octave up
+$: prog.voicing().add(note(12))
+  .s("triangle")
+  .attack(.4).release(.6)
+  .gain(.22).room(.5)
+
+// rolling bass: root-and-fifth 8ths that follow the vamp (A -> D, +3 scale degrees)
+$: n("0 0 7 0 0 7 0 [7 6]".add("<0 0 3 3>"))
+  .scale("A1:minor")
+  .s("sawtooth")
+  .lpf(500).lpq(3)
+  .decay(.16).sustain(.25).clip(.85)
+  .gain("[.85 .6 .7 .6]*2")

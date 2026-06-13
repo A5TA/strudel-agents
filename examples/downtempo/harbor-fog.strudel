@@ -1,0 +1,41 @@
+// @title Harbor Fog
+// @by strudel-agents contributors
+// @license MIT
+// @genre downtempo
+// @bpm 86
+// 86 BPM half-time sway in G minor: sleepy filtered sawtooth chords as the Rhodes stand-in, long dub tails.
+
+setcpm(86/4)
+
+// i - VI - III - VII in G minor
+const prog = chord("<Gm7 Eb^7 Bb^7 F7>")
+
+// half-time kit: snare only on beat 3
+$: stack(
+  s("bd ~ ~ ~ [~ bd] ~ ~ ~").gain(.9),
+  s("~ ~ ~ ~ sd ~ ~ ~").gain(.75).room(.5).roomsize(5),
+  s("hh(5,8,1)").swingBy(.2, 8).gain("[.35 .18]*4").crush(10),
+  s("~ ~ ~ [~ sh]").gain(.4)
+).bank("RolandTR808")
+
+// the "Rhodes": soft sawtooth chords behind a sleepy perlin filter
+$: prog.voicing()
+  .struct("x ~ ~ [~ x] ~ ~ x ~")
+  .swingBy(.2, 8)
+  .s("sawtooth")
+  .adsr(".03:.4:.4:.3")
+  .lpf(perlin.slow(9).rangex(500, 1500))
+  .room(.5).gain(.45)
+
+// foghorn bass: long roots with a late answer note
+$: prog.rootNotes(1)
+  .struct("x ~ ~ ~ ~ ~ [~ x] ~")
+  .s("sine")
+  .clip(.9).gain(.8)
+
+// gull line: G-minor-pentatonic fragments dissolving in the delay
+$: n("<4 ~ 2 ~ ~ 5 ~ ~>*2").scale("G4:minor:pentatonic")
+  .s("piano").lpf(2200)
+  .gain(.45).room(.6)
+  .delay(.5).delaytime(60/86*3/4).delayfeedback(.5)
+  .degradeBy(.25)

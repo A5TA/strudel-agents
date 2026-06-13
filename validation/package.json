@@ -1,0 +1,17 @@
+{
+  "name": "strudel-agents-validation",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Headless validation harness for strudel-agents example patterns (transpile + evaluate + event query, no audio).",
+  "scripts": {
+    "test": "node validate.mjs --self-test",
+    "validate": "node validate.mjs"
+  },
+  "dependencies": {
+    "@strudel/core": "^1.2.6",
+    "@strudel/mini": "^1.2.6",
+    "@strudel/tonal": "^1.2.6",
+    "@strudel/transpiler": "^1.2.6"
+  }
+}

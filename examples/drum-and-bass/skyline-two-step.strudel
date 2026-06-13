@@ -1,0 +1,40 @@
+// @title Skyline Two-Step
+// @by strudel-agents contributors
+// @license MIT
+// @genre drum-and-bass
+// @bpm 174
+// 174 BPM two-step with a walking E-minor sine sub, an airy minor-9 pad and skipping 16th hats.
+
+setcpm(174/4)
+
+// two-step: kick on 1 and the and-of-3, snares on 2 and 4
+$: s("bd ~ ~ ~ sd ~ ~ ~ ~ ~ bd ~ sd ~ ~ ~")
+  .bank("RolandTR909")
+  .gain(.95)
+  .sometimesBy(.06, x => x.ply(2))          // occasional drum-edit stutter
+
+// skipping hats
+$: s("hh*16")
+  .gain("[.45 .2 .3 .2]*4")
+  .pan(.6).hpf(7000)
+  .sometimesBy(.08, x => x.speed(2))
+
+// sub bass walking i -> bIII -> iv in E minor
+$: note("<e1 [e1 ~ e1 ~] g1 [a1 g1]>")
+  .s("sine")
+  .attack(.02).release(.1).clip(.9)
+  .gain(.85)
+
+// airy minor-9-ish pad, high-passed so it never fights the sub
+$: n("[0,2,4,6]").scale("E3:minor")
+  .slow(2)
+  .s("sawtooth")
+  .attack(.8).release(1.2)
+  .lpf(1400).hpf(300)
+  .room(.5).gain(.28).orbit(2)
+
+// sparse top-line answer phrase
+$: n("<7 ~ 9 ~ ~ 7 4 ~>*2").scale("E4:minor")
+  .s("triangle")
+  .delay(.4).delaytime(60/174*1.5).delayfeedback(.45)  // dotted-8th echo
+  .gain(.45).pan(.4)

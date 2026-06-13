@@ -1,0 +1,37 @@
+// @title Rain on Glass
+// @by strudel-agents contributors
+// @license MIT
+// @genre ambient
+// @bpm 70
+// Generative Eb-pentatonic droplets from irand + degrade over a perlin-filtered quartal pad and a brown-noise tide.
+
+setcpm(70/4)
+
+// droplets: random pentatonic degrees, randomly thinned, scattered across the room
+$: n(irand(9).segment(8))
+  .degradeBy(.4)
+  .off(1/4, x => x.add(n(5)).velocity(.5))  // in a 5-note scale, +5 degrees = octave-up echo
+  .scale("Eb4:major:pentatonic")
+  .s("triangle")
+  .decay(.4).sustain(0).release(.4)
+  .lpf(perlin.slow(6).rangex(700, 3500))
+  .pan(rand)
+  .delay(.5).delaytime(.45).delayfeedback(.5)
+  .room(.7).roomsize(7)
+  .gain(.5)
+
+// slow pad: stacked pentatonic degrees give soft quartal colours
+$: n("<[0,2,4] [1,3,5]>/2")
+  .scale("Eb3:major:pentatonic")
+  .s("sawtooth")
+  .attack(2).release(3).sustain(.7)
+  .lpf(perlin.slow(10).rangex(250, 1200))
+  .room(.8).roomsize(8)
+  .gain(.3)
+
+// tide: filtered brown noise swelling and drifting
+$: s("brown")
+  .attack(1.2).release(1.8).sustain(.4)
+  .lpf(600)
+  .gain(sine.slow(8).range(.06, .16))
+  .pan(sine.slow(13).range(.35, .65))

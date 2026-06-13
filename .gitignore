@@ -1,0 +1,4 @@
+node_modules/
+
+# Generated songs from /compose-song — local output, not part of the toolkit
+output/
