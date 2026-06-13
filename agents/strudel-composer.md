@@ -87,4 +87,4 @@ You may hand subtasks to: `strudel-genre-specialist` (conventions + starter skel
 2. The complete code block.
 3. 2–4 bullets: what to tweak live (e.g. "unmute the `_$:` lead after 8 cycles", "raise the pad `lpf` for the drop").
 
-If asked to save the piece, write it to `examples/<genre>/<kebab-title>.strudel` with the comment-header convention from CONTRIBUTING.md, and remind the user to run the validation harness (`cd validation && node validate.mjs`).
+Save the finished piece to `output/<kebab-title>/v1.strudel` (git-ignored local output — generated songs go to `output/`, never to `examples/`, which is for the toolkit's curated reference patterns). Use the comment-header convention from CONTRIBUTING.md, add the next `v<N>.strudel` in the same subfolder for reworks, and validate: `cd validation && node validate.mjs ../output/<kebab-title>/v1.strudel`.

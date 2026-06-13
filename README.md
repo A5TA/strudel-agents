@@ -13,7 +13,7 @@
 **strudel-agents** is a toolkit that teaches Claude Code to be a competent Strudel collaborator. Out of the box, large language models tend to hallucinate Strudel syntax, mix up Tidal and Strudel idioms, and produce patterns that don't evaluate. This repo fixes that with four layers:
 
 - **7 subagents** — specialized roles (rhythm, harmony, sound design, arrangement, critique, genre expertise) orchestrated by a composer agent.
-- **8 Agent Skills** — focused, on-demand lessons in Strudel syntax, mini-notation, music theory, groove, and genre conventions.
+- **9 Agent Skills** — an end-to-end `compose-song` orchestrator plus focused, on-demand lessons in Strudel syntax, mini-notation, music theory, groove, and genre conventions.
 - **A distilled knowledge base** — accurate Strudel reference material rewritten from the official docs, including a `gotchas.md` of common LLM mistakes.
 - **Verified examples** — original patterns across 8 genres, every one proven to evaluate by a CI validation harness.
 
@@ -45,7 +45,16 @@ Copy `agents/*.md` into your project's `.claude/agents/` and the `skills/*` dire
 
 ## Usage
 
-Once installed, just ask. Some prompts to try:
+Once installed, just ask. The fastest path is the `compose-song` orchestrator — give it a genre and a feeling, and it drives the whole specialist team end-to-end:
+
+```
+/compose-song melodic techno — driving at night, hopeful but tense
+```
+```
+/compose-song lo-fi hip-hop — rainy Sunday, nostalgic and unhurried
+```
+
+Or reach for an individual agent or skill directly. Some prompts to try:
 
 ```
 Use the strudel-composer agent to write a 4-track minimal techno groove at 132 BPM.
@@ -76,8 +85,9 @@ Paste the resulting code into [strudel.cc](https://strudel.cc) and press play.
 
 ## Skills
 
-| Skill | What it teaches |
-|-------|-----------------|
+| Skill | What it teaches / does |
+|-------|------------------------|
+| `compose-song` | **Orchestrator** — drives the whole agent team to make a complete, runnable track from a genre + a description of how it should feel (the end-to-end entry point) |
 | `strudel-syntax` | Core Strudel API: pattern functions, chaining, output methods, common pitfalls |
 | `strudel-mini-notation` | The mini-notation string language: sequences, subdivision, rests, polymeter, euclids |
 | `strudel-sound-design` | Synths, oscillators, envelopes, filters, effects, and the default sample banks |
