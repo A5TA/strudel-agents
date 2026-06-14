@@ -30,16 +30,7 @@ Inside Claude Code:
 /plugin install strudel-agents
 ```
 
-### Option B: Install script
-
-```bash
-git clone https://github.com/a5ta/strudel-agents.git
-cd strudel-agents
-./install.sh              # installs to ~/.claude/ for all projects
-./install.sh --project .  # or install into a single project's .claude/
-```
-
-### Option C: Manual copy
+### Option B: Manual copy
 
 Copy `agents/*.md` into your project's `.claude/agents/` and the `skills/*` directories into `.claude/skills/` (or into `~/.claude/agents/` and `~/.claude/skills/` for user-wide installation).
 

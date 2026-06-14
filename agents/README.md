@@ -22,4 +22,4 @@ The critic is deliberately read-only (`Read`, `Glob`, `Grep`): it reports issues
 
 ## Installation
 
-See the [repo root README](../README.md) for the three install options (Claude Code plugin, `./install.sh`, or manually copying these files into `.claude/agents/`).
+See the [repo root README](../README.md) for the two install options (the Claude Code plugin, or manually copying these files into `.claude/agents/`).
