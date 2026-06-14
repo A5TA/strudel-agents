@@ -21,18 +21,14 @@ The result: ask Claude Code for "a rolling 174 BPM drum & bass pattern with a Re
 
 ## Quick Start
 
-### Option A: Claude Code plugin (recommended)
-
-Inside Claude Code:
+Install the plugin from inside Claude Code:
 
 ```
 /plugin marketplace add a5ta/strudel-agents
 /plugin install strudel-agents
 ```
 
-### Option B: Manual copy
-
-Copy `agents/*.md` into your project's `.claude/agents/` and the `skills/*` directories into `.claude/skills/` (or into `~/.claude/agents/` and `~/.claude/skills/` for user-wide installation).
+This registers all the subagents and skills automatically — there's nothing to copy by hand.
 
 ## Usage
 

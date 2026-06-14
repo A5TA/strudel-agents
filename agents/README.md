@@ -22,4 +22,4 @@ The critic is deliberately read-only (`Read`, `Glob`, `Grep`): it reports issues
 
 ## Installation
 
-See the [repo root README](../README.md) for the two install options (the Claude Code plugin, or manually copying these files into `.claude/agents/`).
+Install the `strudel-agents` plugin from inside Claude Code and these agents are registered automatically — see the [repo root README](../README.md#quick-start) for the commands.
